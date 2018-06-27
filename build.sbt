@@ -1,8 +1,9 @@
 
 import sbt.Keys.{version, _}
+
 import scala.sys.process._
 
-val smqdVersion = "0.1.0-SNAPSHOT"
+val smqdVersion = "0.1.0"
 val akkaVersion = "2.5.13"
 val alpakkaVersion = "0.19"
 
@@ -22,6 +23,12 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   libraryDependencies ++= Seq(
       "t2x.smqd" %% "smqd-core" % smqdVersion
     )
+).settings(
+  // Publishing
+  publishTo := Some(
+    "bintray" at "https://api.bintray.com/maven/smqd/"+"smqd/smqd-bridge-http_2.12/;publish=1"),
+  credentials += Credentials(Path.userHome / ".sbt" / ".credentials"),
+  publishMavenStyle := true
 ).settings{
   //// Test
   libraryDependencies ++= Seq(
