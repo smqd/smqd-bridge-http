@@ -29,7 +29,9 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   publishTo := Some(
     "bintray" at "https://api.bintray.com/maven/smqd/"+"smqd/smqd-bridge-http_2.12/;publish=1"),
   credentials += Credentials(Path.userHome / ".sbt" / ".credentials"),
-  publishMavenStyle := true
+  publishMavenStyle := true,
+  // Resolver
+  resolvers += Resolver.bintrayRepo("smqd", "smqd")
 ).settings{
   //// Test
   libraryDependencies ++= Seq(
