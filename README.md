@@ -1,7 +1,11 @@
 # SMQD HTTP Bridge
 
+[![Build Status](https://travis-ci.org/smqd/smqd-bridge-http.svg?branch=develop)](https://travis-ci.org/smqd/smqd-bridge-http)
+
+## Usage
+
 ```scala
-    libraryDependencies += "t2x.smqd" %% "smqd-bridge-http" % "0.1.0-SNAPSHOT"
+    libraryDependencies += "t2x.smqd" %% "smqd-bridge-http" % "0.1.0"
 ```
 
 ## Configuration
