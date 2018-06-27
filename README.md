@@ -5,6 +5,8 @@
 ## Usage
 
 ```scala
+    resolvers += Resolver.bintrayRepo("smqd", "smqd")
+
     libraryDependencies += "t2x.smqd" %% "smqd-bridge-http" % "0.1.0"
 ```
 
