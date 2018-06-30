@@ -22,7 +22,8 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
 ).settings(
   libraryDependencies ++= Seq(
       "com.thing2x" %% "smqd-core" % "0.3.1-SNAPSHOT"
-    )
+    ),
+  resolvers += Resolver.sonatypeRepo("public")
 ).settings(
   // Publishing
   publishTo := {

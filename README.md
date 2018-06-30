@@ -1,13 +1,14 @@
 # SMQD HTTP Bridge
 
 [![Build Status](https://travis-ci.org/smqd/smqd-bridge-http.svg?branch=develop)](https://travis-ci.org/smqd/smqd-bridge-http)
+[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/https/oss.sonatype.org/com.thing2x/smqd-bridge-http_2.12.svg)](https://oss.sonatype.org/content/groups/public/com/thing2x/smqd-bridge-http_2.12/)
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.thing2x/smqd-bridge-http_2.12.svg)](https://oss.sonatype.org/content/groups/public/com/thing2x/smqd-bridge-http_2.12/)
+[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## Usage
 
 ```scala
-    resolvers += Resolver.bintrayRepo("smqd", "smqd")
-
-    libraryDependencies += "t2x.smqd" %% "smqd-bridge-http" % "0.1.0"
+    libraryDependencies += "com.thing2x.smqd" %% "smqd-bridge-http" % "x.y.z"
 ```
 
 ## Configuration
@@ -19,7 +20,7 @@ smqd {
     drivers = [
       {
         name = http_br
-        class = t2x.smqd.bridge.HttpBridgeDriver
+        class = com.thing2x.smqd.bridge.HttpBridgeDriver
         parallelism = 4
         queue = 20
         overflow-strategy = drop-buffer
