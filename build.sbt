@@ -33,7 +33,8 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
     else
       Some("releases" at nexus + "service/local/staging/deploy/maven2")
   },
-  credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials"),
+  credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org",
+    sys.env.getOrElse("SONATYPE_USER", ""), sys.env.getOrElse("SONATYPE_PASS", "")),
   homepage := Some(url("https://github.com/smqd/")),
   scmInfo := Some(ScmInfo(url("https://github.com/smqd/smqd-bridge-http"), "scm:git@github.com:smqd/smqd-bridge-http.git")),
   developers := List(
@@ -43,9 +44,11 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   publishMavenStyle := true
 ).settings(
   // PGP signing
-  credentials += Credentials(Path.userHome / ".sbt" / "pgp_credentials"),
   pgpPublicRing := file("./travis/local.pubring.asc"),
-  pgpSecretRing := file("./travis/local.secring.asc")
+  pgpSecretRing := file("./travis/local.secring.asc"),
+  usePgpKeyHex("781E664BE189AD3C7BA9AAE175A70749A422AFCB"),
+  pgpPassphrase := sys.env.get("PGP_PASS").map(_.toArray),
+  useGpg := false
 ).settings(
   //// Test
   libraryDependencies ++= Seq(

@@ -3,3 +3,23 @@ language: scala
 jdk: oraclejdk8
 scala:
 - 2.12.6
+cache:
+  directories:
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt"
+before_cache:
+- find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+- find $HOME/.sbt -name "*.lock" -print -delete
+before_install:
+- if [ $TRAVIS_PULL_REQUEST = 'false' && $TRAVIS_BRANCH = 'develop' ]; then openssl
+  aes-256-cbc -K $encrypted_0ae33bd734a9_key -iv $encrypted_0ae33bd734a9_iv -in travis/secrets.tar.enc
+  -out travis/local.secrets.tar -d; tar xv -C travis -f travis/local.secrets.tar;
+  fi
+after_success:
+- if [ $TRAVIS_PULL_REQUEST = 'false' && $TRAVIS_BRANCH = 'develop' ]; then sbt ++$TRAVIS_SCALA_VERSION
+  publishSigned; fi
+env:
+  global:
+  - secure: nU56BNJgoyjQ91CoGGOas+B7fePiXVirkbnoUkIzklC6PmDV8O1iqAQz83aOzKP7zyffXEgkzszuyNxCASPnNHZeo2n+nOQq5e6+B2R+u0WFPGvGdNfQGFoEFo+VI1mJOrsAEhlxWzKJi9KLCneHvbFNGkBSLjwFB/hkaUC9IreHBEEMOM1tY6XwFNHoNQnoqsnZJhfsa6nzrW2p7cquToH4nJ4tGIQVWExOFUmOhSwhTVRV/GGy6Aw0XblggxTRCz0F3FdKwpdWLOVzB5X1YJEFHkVES8WYUpM0J9cGgnqJZMraAmhBb5jNuwbXxia5AVpTYKB+AWbitFdpqa0zCIO5SHrGQ1PCFyxQsxrVvi+yZzEojL9TLNLM5vVkdgqH/f9NIS8KzwoItJBIxCi80ElSilkpAZR9cOcFM6XzAkGRqoetSc3IgjR1ekOVNyiIi0bmLOGRaLuWn3rwW17AX5JgLU1kS27oLYL3ckDeoGF/1sScBIEfTL/U5gZfGSEYwS/GzWBjD2XNuvmSn0Ay+qR17LsRZ5spfjHUzGIsSScgTxwVGAhtj7tA1HXaDdjRB78SvfdeyJjrsqy3MFU/Spk6ofVwmcK7KPIxFXOGZoQeXM6znU7qricgbrQD7SYPb4AaUWoyBQy4sWraqfKafwoKQDgNr4r3Nr+tm2Ry5a0=
+  - secure: Yd273flgvaT1Xmf7tPtuHRIQTQrozGUsfNbIFcxmwAdWkXTvUjB9VuIOY0n9c8LXHMiXQLTIwlxoGLLAfjuXdMS9oa45Ax6UEtzQ44pMC7itE7tmLP9CMvf1Yu4X0cWWrXtMdy3dksPpqRsPgwXStQncWHVPQYgyZ1LdnpGLIqGBVNu7IPpvjCm9Rf61OAId/43kXfQgGIyOUGguwBgXSyYA7tH9fCq7gm6pCxoRvXu458PUlQPktRCoSbPFR7edZNXOen0sM0JPJkEGaflUHUg0wGyWxvtbYmIgDYVXbksaeF9SwWKvrWzHtF1aYZzcRNpUYeMhxDFw7AKNYJ6Z4X0QuVdXr9q020HxvyS0NDbXsfkmrGgqBVdoNL4vwReMWbRq6W28hJmSdyelI5eL7tGQjWs731/dC553agGN0kkxCc4ev+mRssvLshCNR0jycs89Qhhr8I8D06o0rz0vEiKJzmpmqIa00VP8LSeS8F48XRT66QoEqaMze8ELb7gUx6l7Kz9q2HT+7I/6FndbL0QA4TSqioou5pXKlcO+IJUF/K4Oj6l9VD7KufkF7RddkchCnp2IksHRFfJqJ9So8dw5aHyQY7mI1V2XwBTUzYDF7WhIbOClHN8DzTLN/yS/+SuP3I5pC9kytiDTiAjg1KdTVXydgxrXgy2AC9zcRnk=
+  - secure: cpbQEp3NKbOQ888fXV19bCrqeJoR4oiz4t+rMe2fZ86rBKQxJsuoY5pjmkEksJ/tYcljpksc1Yi72H9a++Ss7eCV9l70XTJcNI7Quu3C6yLRuo2j1LKXRSv4XeoLna4Ngx9r6BpG6KYtvX8nfeYkDYpuyfG4k+jdBKQqHCeSzun+uZ8KIRUe+aMJe4mfsE+Uox0ANwpQ86i6Ym3TTq5+o5z0/uDK08uyh1fE/wGAckK0DwjYIePRvk8v5IUlRWqrC95Tn3rJFWcttNjge52Fcj0luIdEdlPqiDfJvAaa9sUSZojkxqxA3Dr+XYd/OVSSWGN7hn679Gey57IPsqgImkp3hUbGSTMCdluAM+4KVwD1q22XOwkBeviGkUUfhzBr7U0IMAkPL0P+ttKFkiUXdVuPkdbRCxCK6q1337xV2FFIiUSuvJeo7wQhxoHSjBMySipVEIOlkcGCWOD3nxxDl5MZIKQKGZHGBMixoozffB58hqIOHXgtJlk/JIfjr6mElaDcIt3x/Y/khdk2AW2FdnTh6MWQXIH6HIJxWcsUsDRKLCBCs+Mhcae7+SMVOiPbOTEQVixEst8omq74azsu53ASLmcBNO9FVur89WxmKRaxrGJi64kiyUq63hqrWQGvG8S6c4E5blacB1SKtbms3Fwpv2dwomVFrdikoUaKDhU=
