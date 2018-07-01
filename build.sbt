@@ -38,7 +38,7 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   homepage := Some(url("https://github.com/smqd/")),
   scmInfo := Some(ScmInfo(url("https://github.com/smqd/smqd-bridge-http"), "scm:git@github.com:smqd/smqd-bridge-http.git")),
   developers := List(
-    Developer("OutOfBedlam", "Kwon, Yeong Eon", "eirny@uangel.com", url("http://www.uangel.com"))
+    Developer("OutOfBedlam", "Kwon, Yeong Eon", sys.env.getOrElse("SONATYPE_DEVELOPER_0", ""), url("http://www.uangel.com"))
   ),
   publishArtifact in Test := false, // Not publishing the test artifacts (default)
   publishMavenStyle := true
@@ -46,7 +46,6 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   // PGP signing
   pgpPublicRing := file("./travis/local.pubring.asc"),
   pgpSecretRing := file("./travis/local.secring.asc"),
-  usePgpKeyHex("781E664BE189AD3C7BA9AAE175A70749A422AFCB"),
   pgpPassphrase := sys.env.get("PGP_PASS").map(_.toArray),
   useGpg := false
 ).settings(
