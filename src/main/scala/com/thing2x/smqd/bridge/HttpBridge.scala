@@ -82,9 +82,7 @@ class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends Abstrac
 
   // wsClient: StandaloneAhcWSClient = StandaloneAhcWSClient()
   override protected def connect(): Unit = {
-    implicit val system: ActorSystem = smqd.system
-    implicit val ec: ExecutionContext = smqd.gloablDispatcher
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
+    import smqd.Implicit._
 
     val http = Http()
 
