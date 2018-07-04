@@ -14,18 +14,16 @@
 
 package com.thing2x.smqd.bridge
 
-import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
+import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.{Keep, Sink, Source, SourceQueueWithComplete}
-import akka.stream.{ActorMaterializer, OverflowStrategy}
 import akka.util.ByteString
+import com.thing2x.smqd._
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.StrictLogging
 import io.netty.buffer.ByteBuf
-import com.thing2x.smqd._
 
-import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 /**
