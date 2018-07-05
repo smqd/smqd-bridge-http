@@ -20,6 +20,7 @@ import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.{Keep, Sink, Source, SourceQueueWithComplete}
 import akka.util.ByteString
 import com.thing2x.smqd._
+import com.thing2x.smqd.plugin.SmqBridgeDriverPlugin
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.StrictLogging
 import io.netty.buffer.ByteBuf
@@ -32,7 +33,7 @@ import scala.util.{Failure, Success}
   * Configuration example
   *
   */
-class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends AbstractBridgeDriver(name, smqd, config) with StrictLogging {
+class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends SmqBridgeDriverPlugin(name, smqd, config) with StrictLogging {
 
   val parallelism: Int = config.getOptionInt("parallelism").getOrElse(1) match {
     case p if p <= 0 => 1
