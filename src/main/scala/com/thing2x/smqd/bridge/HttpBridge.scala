@@ -27,13 +27,9 @@ import io.netty.buffer.ByteBuf
 
 import scala.util.{Failure, Success}
 
-/**
-  * 2018. 6. 23. - Created by Kwon, Yeong Eon
-  *
-  * Configuration example
-  *
-  */
-class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends BridgeDriver(name, smqd, config) with StrictLogging {
+// 2018. 6. 23. - Created by Kwon, Yeong Eon
+
+class HttpBridgeDriver(name: String, smqdInstance: Smqd, config: Config) extends BridgeDriver(name, smqdInstance, config) with StrictLogging {
 
   val parallelism: Int = config.getOptionInt("parallelism").getOrElse(1) match {
     case p if p <= 0 => 1
@@ -44,7 +40,9 @@ class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends BridgeD
 
   private var source: Option[SourceQueueWithComplete[HttpRequest]] = None
 
-  override protected def createBridge(filterPath: FilterPath, config: Config, index: Long): Bridge = {
+  override protected def createBridge(config: Config, index: Long): Bridge = {
+    val topic = config.getString("topic")
+    val filterPath = FilterPath(topic)
     val method = config.getString("method") match {
       case "POST" => HttpMethods.POST
       case "PUT" => HttpMethods.PUT
@@ -82,7 +80,7 @@ class HttpBridgeDriver(name: String, smqd: Smqd, config: Config) extends BridgeD
   // wsClient: StandaloneAhcWSClient = StandaloneAhcWSClient()
   override protected def connect(): Unit = {
 
-    import smqd.Implicit._
+    import smqdInstance.Implicit._
 
     val http = Http()
 

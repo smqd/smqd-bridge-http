@@ -21,7 +21,7 @@ val `smqd-bridge-http` = project.in(file(".")).settings(
   scalaVersion := "2.12.6"
 ).settings(
   libraryDependencies ++= Seq(
-      "com.thing2x" %% "smqd-core" % smqdVersion
+      "com.thing2x" %% "smqd-core" % smqdVersion changing()
     ),
   resolvers += Resolver.sonatypeRepo("public")
 ).settings(
