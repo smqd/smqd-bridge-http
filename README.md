@@ -20,28 +20,27 @@ smqd {
     drivers = [
       {
         name = http_br
-        class = com.thing2x.smqd.bridge.HttpBridgeDriver
-        parallelism = 4
-        queue = 20
-        overflow-strategy = drop-buffer
-      }
-    ]
-
-    bridges = [
-      {
-        topic = "sensor/+/temperature"
-        driver = http_br
-        content-type = text/plain
-        method = POST     # PUT, POST
-        prefix = http://192.168.1.100/api/receiver/
-        suffix = ?from=smqd-01
-      },
-      {
-        topic = "sensor/+/humidity"
-        driver = http_br
-        content-type = application/octet-stream
-        method = POST     # PUT, POST
-        uri = http://192.168.1.100/api/receiver/endpoint
+        entry.plugin = thing2x-bridge-http
+        config {
+            parallelism = 4
+            queue = 20
+            overflow-strategy = drop-buffer
+            bridges = [
+              {
+                topic = "sensor/+/temperature"
+                content-type = text/plain
+                method = POST     # PUT, POST
+                prefix = http://192.168.1.100/api/receiver/
+                suffix = ?from=smqd-01
+              },
+              {
+                topic = "sensor/+/humidity"
+                content-type = application/octet-stream
+                method = POST     # PUT, POST
+                uri = http://192.168.1.100/api/receiver/endpoint
+              }
+            ]
+        }
       }
     ]
   }
