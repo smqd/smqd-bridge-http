@@ -74,7 +74,10 @@ class HttpBridgeDriver(name: String, smqdInstance: Smqd, config: Config) extends
     val prefix = config.getOptionString("prefix")
     val suffix = config.getOptionString("suffix")
 
-    new HttpBridge(this, index, filterPath, method, contentType, path, prefix, suffix)
+    new HttpBridge(this, index, filterPath, method, contentType,
+      if (path.isDefined && path.get.length > 0) path else None,
+      if (prefix.isDefined && prefix.get.length > 0) prefix else None,
+      if (suffix.isDefined && suffix.get.length > 0) suffix else None)
   }
 
   // wsClient: StandaloneAhcWSClient = StandaloneAhcWSClient()

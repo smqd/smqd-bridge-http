@@ -74,10 +74,6 @@ smqd {
 
     topic filter that the bridge will subscribe
 
-- _driver_
-
-    should be name of http bridge driver
-
 - _content-type_
 
     if not specified, default is `application/octet-stream`

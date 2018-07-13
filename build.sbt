@@ -1,8 +1,7 @@
 
 import sbt.Keys.{version, _}
 
-import scala.sys.process._
-
+val thisVersion = "0.4.0-SNAPSHOT"
 val smqdVersion = "0.4.0-SNAPSHOT"
 val akkaVersion = "2.5.13"
 val alpakkaVersion = "0.19"
@@ -10,11 +9,11 @@ val alpakkaVersion = "0.19"
 val `smqd-bridge-http` = project.in(file(".")).settings(
   organization := "com.thing2x",
   name := "smqd-bridge-http",
-  version := smqdVersion,
+  version := thisVersion,
   scalaVersion := "2.12.6"
 ).settings(
   libraryDependencies ++= Seq(
-    if (isSnapshot.value)
+    if (smqdVersion.endsWith("-SNAPSHOT"))
       "com.thing2x" %% "smqd-core" % smqdVersion changing() withSources()
     else
       "com.thing2x" %% "smqd-core" % smqdVersion
