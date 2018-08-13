@@ -14,17 +14,20 @@
 
 package com.thing2x.smqd.bridge
 
+import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
-import akka.stream.OverflowStrategy
+import akka.stream.{Materializer, OverflowStrategy}
 import akka.stream.scaladsl.{Keep, Sink, Source, SourceQueueWithComplete}
 import akka.util.ByteString
 import com.thing2x.smqd._
+import com.thing2x.smqd.util.ConfigUtil._
 import com.thing2x.smqd.plugin.{AbstractBridge, Bridge, BridgeDriver}
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.StrictLogging
 import io.netty.buffer.ByteBuf
 
+import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 // 2018. 6. 23. - Created by Kwon, Yeong Eon
@@ -83,7 +86,9 @@ class HttpBridgeDriver(name: String, smqdInstance: Smqd, config: Config) extends
   // wsClient: StandaloneAhcWSClient = StandaloneAhcWSClient()
   override protected def connect(): Unit = {
 
-    import smqdInstance.Implicit._
+    implicit val ec: ExecutionContext = smqdInstance.Implicit.gloablDispatcher
+    implicit val actorSystem: ActorSystem = smqdInstance.Implicit.system
+    implicit val materializer: Materializer = smqdInstance.Implicit.materializer
 
     val http = Http()
 
