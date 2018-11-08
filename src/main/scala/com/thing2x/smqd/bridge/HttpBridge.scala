@@ -147,7 +147,7 @@ class HttpBridgeDriver(name: String, smqdInstance: Smqd, config: Config) extends
         logger.trace(s"HttpBridgeDriver($name) ${bridge.method.value} ${path.toString}, payload: ${entity.contentType.toString} ${entity.contentLength} bytes")
 
       case _ =>
-        logger.warn(s"HttpBridgeDriver($name) is not conntected, messages for '${topicPath.toString}' will be discarded")
+        logger.warn(s"HttpBridgeDriver($name) is not connected, messages for '${topicPath.toString}' will be discarded")
     }
   }
 }
